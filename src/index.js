@@ -1,6 +1,7 @@
 import './pages/index.css';
-import { initialCards, createCard, removeCard, cardLikeStatusChanger } from "./scripts/cards";
-import { openPopup, openImagePopup, closePopup, keydownClosePopup, overlayClosePopup } from "./scripts/modal";
+import { createCard, removeCard, changeCardLikeStatus } from "./scripts/card";
+import { initialCards } from "./scripts/cards";
+import { openPopup, closePopup, closePopupKeydown, closePopupOverlay, animatingPopups } from "./scripts/modal";
 
 // Константы
 const popupTypeEdit = document.querySelector('.popup_type_edit');
@@ -17,22 +18,37 @@ const profileEditFormDescription = document.querySelector('input[name="descripti
 const addNewCardForm = document.querySelector('form[name="new-place"]');
 const newCardNameInput = document.querySelector('input[name="place-name"]');
 const newCardLinkInput = document.querySelector('input[name="link"]');
+const popupsArr = document.querySelectorAll('.popup');
+const popupTypeImage = document.querySelector('.popup_type_image');
+const contentPopupDescription = popupTypeImage.querySelector('.popup__caption');
+const contentPopupImage = popupTypeImage.querySelector('.popup__image');
+
+// Анимирование попапов
+animatingPopups(popupsArr);
+
+// Открытие попапов с картинками
+const openImagePopup = (cardValue) => {
+    contentPopupDescription.textContent = cardValue.name;
+    contentPopupImage.src = cardValue.link;
+    contentPopupImage.alt = cardValue.name;
+    openPopup(popupTypeImage, closePopupKeydown, closePopupOverlay);
+};
 
 // Вывод карточек на страницу
 const addCards = () => {
     initialCards.map((cardValue) => {
-        placesList.append(createCard(cardValue, removeCard, cardLikeStatusChanger, openImagePopup))
+        placesList.append(createCard(cardValue, removeCard, changeCardLikeStatus, openImagePopup))
     });
 };
 addCards();
 
 // Открытие и закрытие попапов
 profileEditButton.addEventListener('click', () => {
-    openPopup(popupTypeEdit, keydownClosePopup, overlayClosePopup);
+    openPopup(popupTypeEdit, closePopupKeydown, closePopupOverlay);
     fillProfileForm();
 });
 profileAddButton.addEventListener('click', () => {
-    openPopup(popupTypeNewCard, keydownClosePopup, overlayClosePopup)
+    openPopup(popupTypeNewCard, closePopupKeydown, closePopupOverlay)
 });
 popupCloseButtons.forEach((closeButton) => {
     closeButton.addEventListener('click', () => {
@@ -59,7 +75,7 @@ profileEditForm.addEventListener('submit', (evt) => {
 addNewCardForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const newCardValue = {name: newCardNameInput.value, link: newCardLinkInput.value};
-    placesList.prepend(createCard(newCardValue, removeCard, cardLikeStatusChanger, openImagePopup));
+    placesList.prepend(createCard(newCardValue, removeCard, changeCardLikeStatus, openImagePopup));
     closePopup(popupTypeNewCard);
     addNewCardForm.reset();
 });
