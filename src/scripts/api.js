@@ -1,5 +1,5 @@
 const authorizationConfig = {
-    baseURL: 'https://mesto.nomoreparties.co/v1/wff-cohort-25',
+    baseUrl: 'https://mesto.nomoreparties.co/v1/wff-cohort-25',
     headers: {
         authorization: '33b46605-c021-40fa-b699-d18214a531c7',
         'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ const downloadCardsList = () => {
 //Редактирование профиля
 const changeProfileInfo = (profileName, aboutInfo) => {
     return fetch(`${authorizationConfig.baseUrl}/users/me`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: authorizationConfig.headers,
         body: JSON.stringify({
             name: profileName,
@@ -92,7 +92,7 @@ const changeProfileImage = (newImageLink) => {
         method: 'PATCH',
         headers: authorizationConfig.headers,
         body: JSON.stringify({
-            data: newImageLink
+            avatar: newImageLink
         })
     })
     .then((res) => getRequestStatus(res))

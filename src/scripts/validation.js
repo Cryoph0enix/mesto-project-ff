@@ -16,27 +16,33 @@ const hideInputValidationErrors = (currentInput, currentForm, validationSettings
     errorMessage.textContent = '';
 };
 
+//Проверка валидности поля ввода
+const checkInputValidity = (currentForm, validationSettings) => {
+    const inputElementsArr = currentForm.querySelectorAll(validationSettings.inputSelector);
+    inputElementsArr.forEach((inputElement) => {
+        inputElement.addEventListener('input', () => {
+            const errorMessage = currentForm.querySelector(`.${inputElement.id}-error`);
+            if (inputElement.validity.patternMismatch) {
+                inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+            }
+            else {
+                inputElement.setCustomValidity("");
+            }
+            if (!inputElement.validity.valid) {
+                showInputValidationErrors(inputElement, currentForm, validationSettings, errorMessage);
+            }
+            else {
+                hideInputValidationErrors(inputElement, currentForm, validationSettings, errorMessage);
+            }
+        })
+    })
+};
+
 //Проверка валидности форм
 const enableValidation = (validationSettings) => {
     const formElementsArr = Array.from(document.querySelectorAll(validationSettings.formSelector));
     formElementsArr.forEach((formElement) => {
-        formElement.addEventListener('input', (evt) => {
-            const currentForm = evt.target.form;
-            const currentInput = evt.target.closest(validationSettings.inputSelector);
-            const errorMessage = currentForm.querySelector(`.${currentInput.id}-error`);
-            if (currentInput.validity.patternMismatch) {
-                currentInput.setCustomValidity(currentInput.dataset.errorMessage);
-            }
-            else {
-                currentInput.setCustomValidity("");
-            }
-            if (!currentForm.checkValidity()) {
-                showInputValidationErrors(currentInput, currentForm, validationSettings, errorMessage);
-            }
-            else {
-                hideInputValidationErrors(currentInput, currentForm, validationSettings, errorMessage);
-            }
-        });
+        formElement.addEventListener('submit', checkInputValidity(formElement, validationSettings));
     })
 };
 
