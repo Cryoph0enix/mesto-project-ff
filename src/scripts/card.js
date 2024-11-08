@@ -1,7 +1,7 @@
 import { deleteCard, setCardLike, removeCardLike } from "./api";
 const cardTemplate = document.querySelector('#card-template').content;
 const isLiked = (cardValue, userId) => {
-    return cardValue.likes.some(like => like.id === userId.id);
+    return cardValue.likes.some(like => like._id === userId.id);
 };
 
 // Функция создания карточки
@@ -21,11 +21,9 @@ const createCard = (cardValue, removeCard, changeCardLikeStatus, openImagePopup,
     else {
         deleteButton.remove();
     }
-
     cardImage.addEventListener('click', () => {
         openImagePopup(cardValue);
     });
-
     const cardLikeButton = cardElement.querySelector('.card__like-button');
     const cardLikeCounter = cardElement.querySelector('.card__like-counter');
     cardLikeCounter.textContent = cardValue.likes.length;
