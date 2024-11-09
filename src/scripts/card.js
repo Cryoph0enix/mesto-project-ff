@@ -1,7 +1,7 @@
 import { deleteCard, setCardLike, removeCardLike } from "./api";
 const cardTemplate = document.querySelector('#card-template').content;
 const isLiked = (cardValue, userId) => {
-    return cardValue.likes.some(like => like._id === userId.id);
+    return cardValue.likes.some(like => like._id === userId);
 };
 
 // Функция создания карточки
