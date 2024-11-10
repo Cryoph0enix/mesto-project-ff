@@ -62,8 +62,8 @@ profileEditButton.addEventListener('click', () => {
     clearFormValidationErrors(popupTypeEdit, validationSettings);
 });
 profileAddButton.addEventListener('click', () => {
-    openPopup(popupTypeNewCard, closePopupKeydown, closePopupOverlay)
     clearFormValidationErrors(popupTypeNewCard, validationSettings);
+    openPopup(popupTypeNewCard, closePopupKeydown, closePopupOverlay)
 });
 popupCloseButtons.forEach((closeButton) => {
     closeButton.addEventListener('click', () => {
@@ -71,8 +71,8 @@ popupCloseButtons.forEach((closeButton) => {
     })
 });
 profileImage.addEventListener('click', () => {
-    openPopup(popupTypeEditProfileImage, closePopupKeydown, closePopupOverlay);
     clearFormValidationErrors(popupTypeEditProfileImage, validationSettings);
+    openPopup(popupTypeEditProfileImage, closePopupKeydown, closePopupOverlay);
 });
 
 // Редактирование профиля

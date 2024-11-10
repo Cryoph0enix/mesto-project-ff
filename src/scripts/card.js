@@ -66,6 +66,7 @@ const changeCardLikeStatus = (cardValue, userId, cardElement, cardLikeButton, ca
                 cardLikeCounter.textContent = res.likes.length;
                 cardValue.likes = res.likes;
             })
+            .catch(err => console.log(err));
     }
 };
 

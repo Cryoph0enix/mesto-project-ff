@@ -18,10 +18,10 @@ const openPopup = (popupElement, closePopupKeydown, closePopupOverlay) => {
 };
 
 // Функция закрытия попапов
-const closePopup = (evt) => {
-    editPopupClassList(evt);
+const closePopup = (openedPopup) => {
+    editPopupClassList(openedPopup);
     document.removeEventListener('keydown', closePopupKeydown);
-    evt.removeEventListener('click', closePopupOverlay);
+    openedPopup.removeEventListener('click', closePopupOverlay);
 };
 
 // Закрытие при нажатии клавиши Esc
